@@ -1,7 +1,7 @@
 #include <iostream>
 #include <list>
-#include <set>
 #include <algorithm>
+#include <iterator>
 
 using namespace std;
 
@@ -36,8 +36,8 @@ int main() {
 
 	//2. Отсортировать его по убыванию элементов.
 	//3. Просмотреть контейнер.
-	sort(begin(first), end(first), [](const Example& l, const Example& r){
-		return l.number < r.number;
+	first.sort([](const Example& l, const Example& r){
+		return l.number > r.number;
 	});
 
 	cout << "First container: ";
@@ -46,32 +46,64 @@ int main() {
 		}
 
 	//4. Используя подходящий алгоритм, найти в контейнере элемент, удовлетворяющий заданному условию.
-	/*find_if(begin(first), end(first), [](const Example& number){
+	auto result = find_if(begin(first), end(first), [](const Example& number){
 			return number < 5;
 	});
-*/
-	//5. Переместить элементы, удовлетворяющие заданному условию в другой (предварительно пустой) контейнер set
-	//6. Просмотреть второй контейнер.
+	cout << endl << "Element less than five: ";
+	if (result == end(first)){
+		cout << "not found";
+	} else cout << *result << endl;
 
+	//5. Переместить элементы, удовлетворяющие заданному условию в другой (предварительно пустой) контейнер
+	//6. Просмотреть второй контейнер.
+	list<Example> second;
+	copy_if(begin(first), end(first), back_inserter(second), [](const Example& number){
+		return number < 5;
+	});
+
+	cout << "Second container: ";
+	for (const auto& item: second){
+		cout << item << " ";
+	}
 
 	//7. Отсортировать первый и второй контейнеры по возрастанию элементов.
 	//8. Просмотреть их.
-	/*sort(begin(first), end (first));
-	cout << "First sort container: ";
-		for (const auto& item: first){
-				cout << item << " ";
-			}*/
+	first.sort();
+	cout << endl << "First sort container: ";
+	for (const auto& item: first){
+		cout << item << " ";
+	}
+
+	second.sort();
+	cout << endl << "Second sort container: ";
+	for (const auto& item: second){
+		cout << item << " ";
+	}
 
 	//9. Получить третий контейнер путем слияния первых двух.
-
-
 	//10. Просмотреть третий контейнер.
-
+	list<Example> third;
+	merge(begin(first), end(first), begin(second), end(second), back_inserter(third));
+	cout << endl << "Third container: ";
+	for (const auto& item: third){
+		cout << item << " ";
+	}
 
 	//11 Подсчитать, сколько элементов, удовлетворяющих заданному условию, содержит третий контейнер.
-
+	auto count = count_if(begin(third), end(third), [](const Example& number){
+		return number < 3;
+	});
+	cout << endl << "Quantity elements less than three: " << count;
 
 	//12.Определить, есть ли в третьем контейнере элемент, удовлетворяющий заданному условию.
+	cout << endl << "Element less than three: ";
+	auto less3 = find_if(begin(third), end(third), [](const Example& number){
+				return number < 3;
+		});
+
+		if (less3 == end(third)){
+			cout << "No";
+		} else cout << "Yes";
 
 	return 0;
 }
