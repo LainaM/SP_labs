@@ -14,7 +14,9 @@ int main() {
 
 	//2. ѕросмотреть контейнер.
 	cout << "First container: ";
-	copy(first.begin(), first.end(), ostream_iterator<int>(cout, " "));
+	for (const auto& item: first){
+		cout << item << " ";
+	}
 
 	//3. »зменить контейнер, удалив из него одни элементы и заменив другие.
 	first.remove(4);
@@ -22,7 +24,9 @@ int main() {
 
 	//4. ѕросмотреть контейнер, использу€ дл€ доступа к его элементам итераторы.
 	cout << endl << "First container after changing: ";
-	copy(first.begin(), first.end(), ostream_iterator<int>(cout, " "));
+	for (auto it = begin(first); it != end(first); ++it){
+			cout << *it << " ";
+	}
 
 	//5. —оздать второй контейнер этого же класса и заполнить его данными того же типа, что и первый контейнер.
 	list<int> second;
@@ -45,8 +49,23 @@ int main() {
 
 	//7. ѕросмотреть первый и второй контейнеры.
 	cout << endl << "First container result: ";
-	copy(first.begin(), first.end(), ostream_iterator<int>(cout, " "));
+	for (const auto& item: first){
+			cout << item << " ";
+	}
+
 	cout << endl << "Second container after changing: ";
-	copy(second.begin(), second.end(), ostream_iterator<int>(cout, " "));
+
+	for (const auto& item: second){
+			cout << item << " ";
+	}
+
 	return 0;
 }
+
+/* с итератором
+  for (auto it = begin(first); it != end(first); ++it){
+		cout << "\t" << *it << endl;
+	}
+	copy(first.begin(), first.end(), ostream_iterator<int>(cout, " "));
+	*/
+
